@@ -1,0 +1,34 @@
+apiVersion: apps/v1  # especifica a versao da api para o recurso deployment
+kind: Deployment     # define que este recurso eh um deployment
+metadata:
+  name: mysql-deployment  # nome do deployment
+spec:
+  replicas: 1        # quantidade de pods desejada para o banco mysql
+  selector:
+    matchLabels:
+      app: mysql     # selector usado para identificar os pods controlados por este deployment
+  template:
+    metadata:
+      labels:
+        app: mysql   # define o label que sera aplicado aos pods criados por este deployment
+    spec:
+      containers:
+        - name: mysql  # nome do container
+          image: mysql:8.0  # imagem oficial do mysql na versao 8
+          env:             # variaveis de ambiente necessarias para iniciar o mysql
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: ticket_tool_db
+            - name: MYSQL_USER
+              value: ticketuser
+            - name: MYSQL_PASSWORD
+              value: ticketpass
+          ports:
+            - containerPort: 3306  # porta interna usada pelo mysql
+          volumeMounts:
+            - name: mysql-storage       # nome do volume que sera montado no container
+              mountPath: /var/lib/mysql  # caminho onde os dados serao salvos no container
+      volumes:
+        - name: mysql-storage
+          emptyDir: {}

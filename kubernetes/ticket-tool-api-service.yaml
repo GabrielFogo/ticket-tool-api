@@ -1,0 +1,12 @@
+apiVersion: v1          # especifica a versao da api para o recurso service
+kind: Service           # define que este recurso é um service
+metadata:
+  name: ticket-tool-api-service   # nome do service
+spec:
+  selector:
+    app: ticket-tool-api  # seleciona os pods com o label app=api para direcionar o trafego
+  ports:
+    - protocol: TCP      # protocolo usado (tcp)
+      port: 80           # porta do service (porta que sera exposta dentro do cluster)
+      targetPort: 3333   # porta do container que o service ira encaminhar o trafego
+  type: ClusterIP        # tipo do service que expoe o service somente dentro do cluster
