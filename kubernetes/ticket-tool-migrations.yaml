@@ -9,15 +9,41 @@ spec:
       - name: migration
         image: gabrielfogo/ticket-tool-api:latest
         command: ["node", "build/ace", "migration:run"] # comando para rodar as migrations do adonis após o build
-        env:
-          - name: DB_HOST
-            value: mysql-service
-          - name: DB_PORT
-            value: "3306"
-          - name: DB_USER
-            value: ticketuser
-          - name: DB_PASSWORD
-            value: ticketpass
-          - name: DB_DATABASE
-            value: ticket_tool_db
+        env:                      # variaveis de ambiente que serao injetadas no container
+            - name: TZ
+              value: UTC           # define timezone como utc
+            - name: PORT
+              value: "3333"        # porta que o app escuta
+            - name: HOST
+              value: 0.0.0.0       # host que o servidor escuta
+            - name: LOG_LEVEL
+              value: info          # nivel de log
+            - name: APP_KEY
+              value: 9JmxzSUY8d1HVlANX3MHnEiMGf884d7T  # chave da aplicacao adonis
+            - name: NODE_ENV
+              value: production    # ambiente de execucao
+            - name: LOG_DRIVER
+              value: console       # tipo de driver de log
+
+            # configuracao do banco de dados mysql
+            - name: DB_HOST
+              value: mysql-service   # nome do service do mysql dentro do cluster
+            - name: DB_PORT
+              value: "3306"          # porta padrao do mysql
+            - name: DB_USER
+              value: ticketuser      # usuario definido no mysql
+            - name: DB_PASSWORD
+              value: ticketpass      # senha definida no mysql
+            - name: DB_DATABASE
+              value: ticket_tool_db  # nome do banco de dados definido no mysql
+
+            # configuracao do smtp (mailtrap)
+            - name: SMTP_HOST
+              value: sandbox.smtp.mailtrap.io
+            - name: SMTP_PORT
+              value: "2525"
+            - name: SMTP_USERNAME
+              value: 703d6c6d38392a
+            - name: SMTP_PASSWORD
+              value: 0c48f55f264d85
       restartPolicy: OnFailure
