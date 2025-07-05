@@ -22,8 +22,8 @@ jobs:
 
       #constroi a imagem docker com base no Dockerfile presente na raiz do projeto
       - name: Build da imagem
-        run: docker build -t gabrielfogo/ticket-toll-api:latest .
+        run: docker build -t gabrielfogo/ticket-tool-api:latest .
 
       #envia a imagem recém-criada para o docker hub
       - name: Push da imagem
-        run: docker push gabrielfogo/ticket-toll-api:latest
+        run: docker push gabrielfogo/ticket-tool-api:latest
