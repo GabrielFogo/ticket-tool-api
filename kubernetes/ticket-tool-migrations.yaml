@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ticket-tool-migrations
+spec:
+  template:
+    spec:
+      containers:
+      - name: migration
+        image: gabrielfogo/ticket-tool-api:latest
+        command: ["node", "build/ace", "migration:run"] # comando para rodar as migrations do adonis após o build
+        env:
+          - name: DB_HOST
+            value: mysql-service
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USER
+            value: ticketuser
+          - name: DB_PASSWORD
+            value: ticketpass
+          - name: DB_DATABASE
+            value: ticket_tool_db
+      restartPolicy: OnFailure
