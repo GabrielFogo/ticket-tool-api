@@ -8,7 +8,7 @@ spec:
       containers:
       - name: migration
         image: gabrielfogo/ticket-tool-api:latest
-        command: ["node", "build/ace", "migration:run"] # comando para rodar as migrations do adonis após o build
+        command: ["node", "build/ace", "migration:run" , "--force"] # comando para rodar as migrations do adonis após o build
         env:                      # variaveis de ambiente que serao injetadas no container
             - name: TZ
               value: UTC           # define timezone como utc
